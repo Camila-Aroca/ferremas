@@ -7,6 +7,7 @@ from .models import Cliente, TipoTarjeta, Tarjeta, TodoItem, Producto, Categoria
 from .forms import RegistroUserForm, ClienteForm, TipoTarjetaForm, TarjetaForm
 from django.contrib.auth import get_user_model  # Importar get_user_model
 from django.db import IntegrityError
+import unicodedata
 
 
 # Página de inicio
@@ -193,9 +194,43 @@ def delete_tarjeta(request, numero_tarjeta):
         return redirect('lista_tarjeta')
     return render(request, 'delete_tarjeta.html', {'tarjeta': tarjeta})
 
-
+def normalize_string(text):
+    """Elimina los acentos y normaliza la cadena"""
+    return ''.join(
+        c for c in unicodedata.normalize('NFKD', text) if not unicodedata.combining(c)
+    )
 
 def catalogo(request):
+    # Filtramos los productos como QuerySet desde el principio
     productos = Producto.objects.all()
-    return render(request, 'catalogo.html', {'productos': productos})
 
+    # Capturar el filtro de categoría
+    categoria = request.GET.get('categoria')
+    if categoria:
+        productos = productos.filter(categoria__nombre=categoria)
+
+    # Capturar el filtro de marca
+    marca = request.GET.get('marca')
+    if marca:
+        productos = productos.filter(marca=marca)
+
+    # Capturar la consulta de búsqueda del usuario
+    query = request.GET.get('q')
+    if query:
+        # Normalizar la consulta
+        query_normalized = normalize_string(query.lower())
+
+        # Convertir productos a lista y filtrar en Python
+        productos = [
+            producto for producto in productos
+            if query_normalized in normalize_string(producto.nombre.lower())
+        ]
+
+    # Pasar las categorías y marcas únicas al contexto
+    context = {
+        'productos': productos,
+        'categorias': Categoria.objects.all(),
+        'marcas': Producto.objects.values_list('marca', flat=True).distinct(),
+    }
+
+    return render(request, 'catalogo.html', context)
