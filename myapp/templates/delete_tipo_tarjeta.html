@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Eliminar Tipo de Tarjeta</title>
+</head>
+<body>
+    <h1>¿Está seguro que desea eliminar el tipo de tarjeta {{ tipo_tarjeta.descripcion }}?</h1>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Sí, eliminar</button>
+        <a href="{% url 'lista_tipo_tarjeta' %}">Cancelar</a>
+    </form>
+</body>
+</html>

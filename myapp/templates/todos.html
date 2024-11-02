@@ -1,0 +1,21 @@
+
+{% load static %}
+{% block content %}
+<h1>Todo list</h1>
+<ul>
+    {% for todo in todos %}
+    <li>{{ todo.title }}: 
+        {% if todo.completed %}
+        🐒
+        {% else %}
+        Not completed
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+
+<a class="dropdown-item" href="{% url 'inicio'%}">Cerrar Sesion</a>
+<a>{{request.user.get_full_name}}</a>
+
+{% endblock %}
+

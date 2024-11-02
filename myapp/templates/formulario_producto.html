@@ -1,0 +1,247 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Ingreso de producto</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">
+  <link rel="icon" type="image/png" href="{% static 'estrella.png' %}">
+  <style>
+    /* No me gusta la distancia que hay entre las fotos cuando hay 2 inline, 
+    lo quería arreglar acá pero aún quiero que sea menos */
+   /* .less-distance .col {
+      padding: 0.2rem; 
+    }*/
+  </style>
+</head>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var subirBtn = document.getElementById('subirBtn');
+    subirBtn.addEventListener('click', function() {
+      var typeDesc = document.getElementById('typeDesc').value.trim();
+      var typePrecio = document.getElementById('typePrecio').value.trim();
+      var precioRegex = /^[1-9]\d{3,}$/;
+      var descRegex = /^[^0-9]{25,500}$/;
+      var typeCateg = document.getElementById('typeCateg').value.trim();
+      var typeMarca = document.getElementById('typeMarca').value.trim();
+      var typeColor = document.getElementById('typeColor').value.trim();
+      var typeMaterial = document.getElementById('typeMaterial').value.trim();
+      var typeTalla = document.getElementById('typeTalla').value.trim();
+
+  
+      if (typeDesc === '' || typePrecio === '' || typeCateg === '...' || typeMarca === '...'
+      || typeColor === '...'|| typeMaterial === '...' || typeTalla === '...' ) 
+      {
+        alert('Por favor, complete todos los campos.');
+        return;
+      }
+  
+      if (!radioEst1.checked && !radioEst2.checked && !radioEst3.checked && !radioEst4.checked) {
+        alert('Por favor, seleccione el estado de su producto');
+        return;
+      }
+
+      if (!descRegex.test(typeDesc)) {
+        alert('La descripción no puede contener números, y debe tener un mínimo de 25 y un máximo de 500 caracteres.');
+        return;
+      }
+  
+      if (!precioRegex.test(typePrecio)) {
+        alert('El precio debe contener sólo números y ser de un mínimo de $1000 CLP.');
+        return;
+      }
+
+      if (!checkbox.checked) {
+        alert('Debe aceptar los términos y condiciones para subir su producto.');
+        return;
+      }
+  
+      // If all fields are filled, selected, and checkbox and radio button are checked, proceed with payment
+      alert('Producto subido correctamente.');
+    });
+  });
+  </script>
+<body>
+<!--Nav bar es un placeholder, después ponemos la misma en todas las páginas-->
+<nav class="navbar navbar-light bg-light">
+  <a class="navbar-brand" href="{% url 'inicio' %}">
+    <img src="{% static 'estrella.png' %}" width="30" height="30" class="d-inline-block align-top mx-3" alt="Logo tienda">
+    Nombre de tienda
+  </a>
+  <a style="padding-right: 100px;">{{request.user.get_full_name}}</a>
+</nav>
+
+<div class="container mt-4 mb-5">
+  <h4 style="text-align: center; margin-top: 40px;">Subir fotos</h4>
+  <p style="text-align: center; font-size: 12px; margin-bottom: 20px;">Hasta 8 fotos en formato JPEG o PNG</p>
+
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="row row-cols-4 row-cols-sm-4 row-cols-md-4 row-cols-lg-4 g-3 less-distance"> <!-- Extra spacing between elements -->
+        <div class="col">
+          <img src="{% static 'gris.png' %}" class="img-fluid rounded-3 mb-1 mx-auto d-block" alt="Shopping item" width="100" height="100">
+        </div>
+        <div class="col">
+          <img src="{% static 'gris.png' %}" class="img-fluid rounded-3 mb-1 mx-auto d-block" alt="Shopping item" width="100" height="100">
+        </div>
+        <div class="col">
+          <img src="{% static 'gris.png' %}" class="img-fluid rounded-3 mb-1 mx-auto d-block" alt="Shopping item" width="100" height="100">
+        </div>
+        <div class="col">
+          <img src="{% static 'gris.png' %}" class="img-fluid rounded-3 mb-1 mx-auto d-block" alt="Shopping item" width="100" height="100">
+        </div>
+        <div class="col">
+          <img src="{% static 'gris.png' %}" class="img-fluid rounded-3 mb-1 mx-auto d-block" alt="Shopping item" width="100" height="100">
+        </div>
+        <div class="col">
+
+          <img src="{% static 'gris.png' %}" class="img-fluid rounded-3 mb-1 mx-auto d-block" alt="Shopping item" width="100" height="100">
+        </div>
+        <div class="col">
+          <img src="{% static 'gris.png' %}" class="img-fluid rounded-3 mb-1 mx-auto d-block" alt="Shopping item" width="100" height="100">
+        </div>
+        <div class="col">
+          <img src="{% static 'gris.png' %}" class="img-fluid rounded-3 mb-1 mx-auto d-block" alt="Shopping item" width="100" height="100">
+        </div>
+      </div>
+
+      <form class="mt-4">
+        <div class="form-group">
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1" style="text-align: left;">Descripción del producto</label>
+            <textarea class="form-control" id="typeDesc" rows="3"></textarea>
+            <p style="font-size: 12px; text-align: left;">Mínimo 25 y máximo 500 caracteres (No números).</p>
+          </div>
+          <div class="form-group" style="margin-bottom: 20px;"> <!-- Added space -->
+            <label for="exampleFormControlSelect1" style="text-align: left;">Estado</label>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="radioEst1">
+              <label class="form-check-label" for="flexRadioDefault1" style="font-size: small; text-align: left;">
+                Nuevo (sin uso, con etiquetas y empaque original)
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="radioEst2">
+              <label class="form-check-label" for="flexRadioDefault2" style="font-size: small; text-align: left;">
+                Como nuevo (en perfecto estado, sin etiquetas)
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="radioEst3">
+              <label class="form-check-label" for="flexRadioDefault1" style="font-size: small; text-align: left;">
+                Usado - excelente (uso leve sin fallas notorias)
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="radioEst4">
+              <label class="form-check-label" for="flexRadioDefault2" style="font-size: small; text-align: left;">
+                Usado - en buen estado (fallas menores)
+              </label>
+          </div>
+          </div>
+          <div class="form-group" style="margin-bottom: 20px;"> <!-- Added space -->
+            <label for="exampleFormControlSelect1" style="text-align: left;">Talla</label>
+            <select class="form-select" id="typeTalla">
+              <option>...</option>
+              <option>XXS</option>
+              <option>XS</option>
+              <option>S</option>
+              <option>M</option>
+              <option>L</option>
+              <option>XL</option>
+              <option>XXL</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom: 20px;"> <!-- Added space -->
+            <label for="exampleFormControlSelect1" style="text-align: left;">Categoría</label>
+            <select class="form-select" id="typeCateg">
+              <option>...</option>
+              <option>Vestido</option>
+              <option>Pantalón</option>
+              <option>Falda</option>
+              <option>Zapatos</option>
+              <option>Chaquetas</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom: 20px;"> <!-- Added space -->
+            <label for="exampleFormControlSelect1" style="text-align: left;">Marca</label>
+            <select class="form-select" id="typeMarca">
+              <option>...</option>
+              <option>Zara</option>
+              <option>Nike</option>
+              <option>Adidas</option>
+              <option>Levi's</option>
+              <option>Wrangler</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom: 20px;"> <!-- Added space -->
+            <label for="exampleFormControlSelect1" style="text-align: left;">Color</label>
+            <select class="form-select" id="typeColor">
+              <option>...</option>
+              <option>Negro</option>
+              <option>Blanco</option>
+              <option>Azul</option>
+              <option>Rojo</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom: 20px;"> <!-- Added space -->
+            <label for="exampleFormControlSelect1" style="text-align: left;">Material</label>
+            <select class="form-select" id="typeMaterial">
+              <option>...</option>
+              <option>Algodón</option>
+              <option>Cuero</option>
+              <option>Poliéster</option>
+              <option>Seda</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom: 20px;"> <!-- Added space -->
+            <label for="exampleFormControlInput1" style="text-align: left;">Precio</label>
+            <input type="email" class="form-control" id="typePrecio" placeholder="$">
+            <p style="font-size: x-small; text-align: left;">El precio debe ser mayor a $1000 CLP.</p>
+          </div>
+          <div class="checkbox checkbox-primary" style="text-align: left;">
+            <input id="checkbox" class="styled" type="checkbox" checked style="margin-bottom: 30px;">
+            <label for="checkbox">
+                He leído y acepto los términos y condiciones
+                <!--Después cuando cree la pág de términos agregar link acá-->
+            </label>
+          </div>
+          <div class="form-group" style="margin-bottom: 30px; width: 140px;">
+              <button type="button" id="subirBtn" class="btn btn-dark">Subir producto</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<footer class="bg-body-tertiary text-center text-lg-start">
+  <p style="text-align: center;"><a href="#">Back to top</a></p>
+  <p style="text-align: center;">&copy; 2024 Tienda de Ropa</p>
+  <p style="text-align: center;">Contactanos: Teléfono: 123-456-7890 | Correo: info@example.com</p>
+  <p style="text-align: center;">Siguenos en nuestras redes:
+  <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+              <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+              <a class="text-light" href="https://www.linkedin.com/" target="_blank"><i class="fab fa-linkedin fa-sm fa-fw"></i></a>
+          </p>
+<!-- Este footer es un placeholder, la idea es después poner el mismo en todas las páginas -->
+<div id="google_translate_element" style="text-align: center;"></div>
+
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+    }
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</footer>
+
+
+</body>
+</html>
