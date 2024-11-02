@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.db import connection
-from .models import Cliente, TipoTarjeta, Tarjeta, TodoItem
+from .models import Cliente, TipoTarjeta, Tarjeta, TodoItem, Producto, Categoria
 from .forms import RegistroUserForm, ClienteForm, TipoTarjetaForm, TarjetaForm
 from django.contrib.auth import get_user_model  # Importar get_user_model
 from django.db import IntegrityError
@@ -192,3 +192,10 @@ def delete_tarjeta(request, numero_tarjeta):
         tarjeta.delete()
         return redirect('lista_tarjeta')
     return render(request, 'delete_tarjeta.html', {'tarjeta': tarjeta})
+
+
+
+def catalogo(request):
+    productos = Producto.objects.all()
+    return render(request, 'catalogo.html', {'productos': productos})
+

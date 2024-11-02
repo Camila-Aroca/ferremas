@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 from django.contrib import admin
+from .views import catalogo
+
 
 urlpatterns = [
     path("", views.inicio, name="home"),
@@ -30,5 +32,9 @@ urlpatterns = [
     path('carrito/delete_cliente/<int:id>/', views.delete_cliente, name='delete_cliente'),
     path('carrito/delete_tipo_tarjeta/<int:id_tipo>/', views.delete_tipo_tarjeta, name='delete_tipo_tarjeta'),
     path('carrito/delete_tarjeta/<str:numero_tarjeta>/', views.delete_tarjeta, name='delete_tarjeta'),
+    
+    path("carrito/catalogo/", views.catalogo, name="catalogo"),
+    path("carrito/catalogo/<int:id_categoria>/", views.catalogo, name="catalogo_categoria"),
+    
 ]
 
