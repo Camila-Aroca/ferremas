@@ -6,6 +6,7 @@
     <title>Catálogo de Productos</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    {% load static %}  <!-- Carga el tag static aquí -->
 </head>
 <body>
 
@@ -37,7 +38,11 @@
                 {% for producto in productos %}
                 <div class="col-md-4">
                     <div class="card mb-4">
-                        <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}">
+                        {% if producto.imagen %}
+                            <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}">
+                        {% else %}
+                            <img src="{% static 'ruta/a/imagen/por/defecto.png' %}" class="card-img-top" alt="Imagen no disponible">
+                        {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ producto.nombre }}</h5>
                             <p class="card-text">{{ producto.descripcion }}</p>
@@ -48,8 +53,8 @@
                     </div>
                 </div>
                 {% empty %}
-                <p>No hay productos disponibles en este momento.</p>
-                {% endfor %}
+                <p>No hay productos disponibles.</p>
+                {% endfor %}                
             </div>        
         </div>
     </div>

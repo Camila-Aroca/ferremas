@@ -22,6 +22,8 @@ class Producto(models.Model):
         related_name='productos'
     )  # Relación con Categoria
     marca = models.CharField(max_length=255)  # Marca del producto
+    imagen = models.ImageField(upload_to='productos/', null=True, blank=True)  # Campo de imagen
+
 
     def __str__(self):
         return f"{self.nombre} - {self.sku}"

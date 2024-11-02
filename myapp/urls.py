@@ -1,15 +1,15 @@
 from django.urls import path
 from . import views
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 from .views import catalogo
-
 
 urlpatterns = [
     path("", views.inicio, name="home"),
     path("admin/", admin.site.urls),
     path("carrito/todos/", views.todos, name="todos"),
     path("carrito/", views.carrito, name="carrito"),
-    #path("carrito/inicio2/", views.inicio2, name="inicio2"),
     path("carrito/inicio/", views.inicio, name="inicio"),
     path("carrito/despliegue-producto/", views.despliegue, name="despliegue-producto"),
     path("carrito/formulario-producto/", views.formulario, name="formulario-producto"),
@@ -35,6 +35,8 @@ urlpatterns = [
     
     path("carrito/catalogo/", views.catalogo, name="catalogo"),
     path("carrito/catalogo/<int:id_categoria>/", views.catalogo, name="catalogo_categoria"),
-    
 ]
 
+# Añadir las siguientes líneas para manejar archivos multimedia
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
