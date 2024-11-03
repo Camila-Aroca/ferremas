@@ -36,10 +36,6 @@
               </li>
             </ul>
             <div class="text-center"></div>
-              <!doctype html>
-              <html lang="en"></html>
-            </form>
-            
             <div class="btn-group ml-2 mr-2" role="group" aria-label="Button group">
               <ul class="list-inline">
                 {% if not user.is_authenticated %}
@@ -126,6 +122,7 @@
                             <p class="card-text"><strong>Precio:</strong> ${{ producto.precio }}</p>
                             <p class="card-text"><strong>Marca:</strong> {{ producto.marca }}</p>
                             <a href="#" class="btn btn-primary">Agregar al carrito</a>
+                            <a href="{% url 'despliegue_producto' producto.sku %}" class="btn btn-primary">Ver Detalles</a>
                         </div>
                     </div>
                 </div>
@@ -141,14 +138,7 @@
         <p style="text-align: center;"><a href="#">Volver al inicio</a></p>
         <p style="text-align: center;">&copy; 2024 Ferremas</p>
         <p style="text-align: center;">Contactanos: Teléfono: 123-456-7890 | Correo: info@example.com</p>
-        <p style="text-align: center;">Siguenos en nuestras redes:
-        <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
-                    <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
-                    <a class="text-light" href="https://www.linkedin.com/" target="_blank"><i class="fab fa-linkedin fa-sm fa-fw"></i></a>
-                </p>
-        
         <div id="google_translate_element" style="text-align: center;"></div>
-
         <script type="text/javascript">
             function googleTranslateElementInit() {
                 new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');

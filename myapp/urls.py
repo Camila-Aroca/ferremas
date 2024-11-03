@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import catalogo
+from .views import despliegue_producto
 
 urlpatterns = [
     path("", views.inicio, name="home"),
@@ -11,7 +12,7 @@ urlpatterns = [
     path("carrito/todos/", views.todos, name="todos"),
     path("carrito/", views.carrito, name="carrito"),
     path("carrito/inicio/", views.inicio, name="inicio"),
-    path("carrito/despliegue-producto/", views.despliegue, name="despliegue-producto"),
+    path("carrito/despliegue-producto/", views.despliegue_producto, name="despliegue-producto"),
     path("carrito/formulario-producto/", views.formulario, name="formulario-producto"),
     path("carrito/registro-user/", views.registro_user, name="registro-user"),
     path('carrito/login', views.login, name='login'),
@@ -35,6 +36,9 @@ urlpatterns = [
     
     path("carrito/catalogo/", views.catalogo, name="catalogo"),
     path("carrito/catalogo/<int:id_categoria>/", views.catalogo, name="catalogo_categoria"),
+
+    path('producto/<str:sku>/', despliegue_producto, name='despliegue_producto'),  # Cambiado a <str:sku>
+    
 ]
 
 # Añadir las siguientes líneas para manejar archivos multimedia

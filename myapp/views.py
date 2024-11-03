@@ -61,8 +61,15 @@ def carrito(request):
 def inicio(request):
     return render(request, "inicio.html")
 
-def despliegue(request):
-    return render(request, "despliegue_producto.html")
+def despliegue_producto(request, sku):
+    # Obtener el producto específico usando get_object_or_404 para manejar errores
+    producto = get_object_or_404(Producto, sku=sku)  # Cambiado a sku
+
+    context = {
+        'producto': producto,
+    }
+
+    return render(request, 'despliegue_producto.html', context)
 
 def formulario(request):
     return render(request, "formulario_producto.html")
