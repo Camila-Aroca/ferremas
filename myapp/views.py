@@ -293,7 +293,16 @@ def eliminar_del_carrito(request, sku):
         carrito_producto = carrito.carritoproducto_set.filter(producto=producto).first()
         
         if carrito_producto:
-            carrito_producto.delete()  # Elimina el producto del carrito
+            # Obtener la cantidad a eliminar del formulario
+            cantidad_a_eliminar = int(request.POST.get('cantidad_a_eliminar', 1))
+
+            # Verificar si la cantidad a eliminar es mayor que la cantidad en el carrito
+            if cantidad_a_eliminar >= carrito_producto.cantidad:
+                carrito_producto.delete()  # Elimina el producto del carrito si la cantidad es igual o mayor
+            else:
+                # Disminuir la cantidad en lugar de eliminar el producto
+                carrito_producto.cantidad -= cantidad_a_eliminar
+                carrito_producto.save()  # Guarda los cambios en el carrito
         else:
             return HttpResponse("Producto no encontrado en el carrito.", status=404)
     
