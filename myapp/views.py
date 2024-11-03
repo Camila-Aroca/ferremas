@@ -307,3 +307,9 @@ def eliminar_del_carrito(request, sku):
             return HttpResponse("Producto no encontrado en el carrito.", status=404)
     
     return redirect('carrito')
+
+def compra_aprobada(request):
+    return render(request, 'compra_aprobada.html')  # Ajusta el nombre si es necesario
+
+def compra_fallida(request):
+    return render(request, 'compra_fallida.html')  
