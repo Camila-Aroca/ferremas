@@ -15,7 +15,19 @@
                 {% with total=0 %}
                     {% for item in carrito.carritoproducto_set.all %}
                         <li class="list-group-item">
-                            {{ item.producto.nombre }} - ${{ item.producto.precio|floatformat:2 }} x {{ item.cantidad }}
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}" class="img-fluid">
+                                </div>
+                                <div class="col-md-8">
+                                    <strong>{{ item.producto.nombre }}</strong> - ${{ item.producto.precio|floatformat:2 }} x {{ item.cantidad }}
+                                </div>
+                                <div class="col-md-2">
+                                    {% with subtotal=item.producto.precio|floatformat:2|add:"0.00"|floatformat:2 %}
+                                        <strong>${{ subtotal|add:item.cantidad|floatformat:2 }}</strong>
+                                    {% endwith %}
+                                </div>
+                            </div>
                         </li>
                         {% with subtotal=item.producto.precio|floatformat:2|add:"0.00"|floatformat:2 %}
                             {% with subtotal_total=subtotal|add:item.cantidad|floatformat:2 %}
