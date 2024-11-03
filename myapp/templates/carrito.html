@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-  {% load mis_filtros %}   
+  {% load mis_filtros %}
     <div class="container mt-4">
         <h1>Carrito de Compras</h1>
         {% if productos %}
@@ -18,11 +18,18 @@
                             <div class="col-md-2">
                                 <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}" class="img-fluid">
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <strong>{{ item.producto.nombre }}</strong> - ${{ item.producto.precio|floatformat:2 }} x {{ item.cantidad }}
                             </div>
                             <div class="col-md-2">
                                 <strong>${{ item.producto.precio|mul:item.cantidad|floatformat:2 }}</strong>
+                            </div>
+                            <div class="col-md-2">
+                                <!-- Botón de eliminación -->
+                                <form action="{% url 'eliminar_del_carrito' item.producto.sku %}" method="post">
+                                  {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                </form>
                             </div>
                         </div>
                     </li>

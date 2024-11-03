@@ -280,3 +280,21 @@ def carrito(request):
     # Pasa los productos y el total al template
     return render(request, "carrito.html", {"carrito": carrito, "productos": productos, "total": total})
 
+@login_required
+def eliminar_del_carrito(request, sku):
+    # Intenta obtener el producto por SKU
+    producto = get_object_or_404(Producto, sku=sku)
+    
+    # Obtiene el carrito del usuario actual
+    carrito = Carrito.objects.filter(usuario=request.user).first()
+    
+    if carrito:
+        # Intenta obtener el CarritoProducto asociado al producto
+        carrito_producto = carrito.carritoproducto_set.filter(producto=producto).first()
+        
+        if carrito_producto:
+            carrito_producto.delete()  # Elimina el producto del carrito
+        else:
+            return HttpResponse("Producto no encontrado en el carrito.", status=404)
+    
+    return redirect('carrito')

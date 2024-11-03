@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 from .views import catalogo
 from .views import despliegue_producto
 from .views import agregar_al_carrito
-
+from .views import eliminar_del_carrito
 
 urlpatterns = [
     path("", views.inicio, name="home"),
@@ -39,11 +39,12 @@ urlpatterns = [
     path("carrito/catalogo/", views.catalogo, name="catalogo"),
     path("carrito/catalogo/<int:id_categoria>/", views.catalogo, name="catalogo_categoria"),
 
-    #path('producto/<str:sku>/', despliegue_producto, name='despliegue_producto'),  
     path('carrito/despliegue-producto/<str:sku>/', despliegue_producto, name='despliegue_producto'),
 
 
     path('agregar-al-carrito/<str:sku>/', agregar_al_carrito, name='agregar_al_carrito'),
+    path('carrito/eliminar/<str:sku>/', views.eliminar_del_carrito, name='eliminar_del_carrito'),
+
     
 ]
 
