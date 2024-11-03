@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.db import connection
-from .models import Cliente, TipoTarjeta, Tarjeta, TodoItem, Producto, Categoria
+from .models import Cliente, TipoTarjeta, Tarjeta, TodoItem, Producto, Categoria, Carrito, CarritoProducto
 from .forms import RegistroUserForm, ClienteForm, TipoTarjetaForm, TarjetaForm
 from django.contrib.auth import get_user_model  # Importar get_user_model
 from django.db import IntegrityError
@@ -241,3 +241,29 @@ def catalogo(request):
     }
 
     return render(request, 'catalogo.html', context)
+
+@login_required
+def agregar_al_carrito(request, sku):
+    producto = get_object_or_404(Producto, sku=sku)
+
+    # Obtener o crear el carrito del usuario
+    carrito, created = Carrito.objects.get_or_create(usuario=request.user)
+
+    # Agregar el producto al carrito
+    carrito_producto, created = CarritoProducto.objects.get_or_create(
+        carrito=carrito,
+        producto=producto,
+        defaults={'cantidad': 1}
+    )
+
+    if not created:
+        # Si ya existía, solo aumentar la cantidad
+        carrito_producto.cantidad += 1
+        carrito_producto.save()
+
+    return redirect('carrito')  # Redirige al carrito después de agregar
+
+@login_required
+def carrito(request):
+    carrito = Carrito.objects.filter(usuario=request.user).first()
+    return render(request, "carrito.html", {"carrito": carrito})

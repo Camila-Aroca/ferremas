@@ -76,7 +76,7 @@
                 <p class="card-text"><strong>Categoría:</strong> {{ producto.categoria.nombre }}</p>
                 <div class="mt-3">
                     <a href="{% url 'catalogo' %}" class="btn btn-primary">Regresar al Catálogo</a>
-                    <a href="{% url 'carrito' %}" class="btn btn-secondary">Ir al Carrito</a>
+                    <a href="{% url 'agregar_al_carrito' producto.sku %}" class="btn btn-secondary">Agregar al Carrito</a>
                 </div>
             </div>
         </div>

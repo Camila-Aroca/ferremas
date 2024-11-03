@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.validators import RegexValidator, EmailValidator
+from django.contrib.auth.models import User
+
 
 class Categoria(models.Model):
     id_categoria = models.AutoField(primary_key=True)  # ID autoincremental
@@ -27,6 +29,7 @@ class Producto(models.Model):
 
     def __str__(self):
         return f"{self.nombre} - {self.sku}"
+
 
 class TodoItem(models.Model):
     title = models.CharField(max_length=200)
@@ -78,5 +81,13 @@ class Tarjeta(models.Model):
 
     def __str__(self):
         return f"{self.numero_tarjeta} - {self.cliente}"
+    
+class Carrito(models.Model):
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
+    
+class CarritoProducto(models.Model):
+    carrito = models.ForeignKey(Carrito, related_name='carritoproducto_set', on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField(default=1)
     
     
