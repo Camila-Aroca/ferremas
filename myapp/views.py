@@ -261,9 +261,22 @@ def agregar_al_carrito(request, sku):
         carrito_producto.cantidad += 1
         carrito_producto.save()
 
-    return redirect('carrito')  # Redirige al carrito después de agregar
+    return redirect('carrito') 
 
 @login_required
 def carrito(request):
+    # Obtiene el carrito del usuario actual
     carrito = Carrito.objects.filter(usuario=request.user).first()
-    return render(request, "carrito.html", {"carrito": carrito})
+    
+    # Si el carrito existe, obtiene los productos y calcula el total
+    if carrito:
+        productos = carrito.carritoproducto_set.all()
+        # Calcula el total sumando los subtotales de cada producto
+        total = sum(item.producto.precio * item.cantidad for item in productos)
+    else:
+        productos = []
+        total = 0
+
+    # Pasa los productos y el total al template
+    return render(request, "carrito.html", {"carrito": carrito, "productos": productos, "total": total})
+
